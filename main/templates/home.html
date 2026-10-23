@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}BekTest — Bilimingni sinab ko'r!{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> SHAXSIY TEST PLATFORMASI</div>
+        <h1>Bilimingni sinab ko'r. <span class="gradient-text">Yangi marralarni zabt et!</span></h1>
+        <p class="hero-description">O'rgan, fikrla va o'z mahoratingni namoyish et. Har bir savol — yangi imkoniyat!</p>
+
+        <div class="hero-actions">
+            <a href="#testlar" class="button button-primary">Testni boshlash <span>→</span></a>
+            <a href="{% url 'categories' %}" class="button button-glass">Fanlarni ko'rish</a>
+        </div>
+
+        <div class="hero-trust">
+            <div class="trust-avatars"><span>🧑‍🎓</span><span>👩‍🎓</span><span>🧑‍💻</span></div>
+            <div><strong>Bilim sari bir qadam!</strong><p>Har kuni o'rgan. Har kuni rivojlan.</p></div>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="hero-orbit orbit-one"></div>
+        <div class="hero-orbit orbit-two"></div>
+        <div class="hero-illustration">
+            <div class="illustration-glow"></div>
+            <div class="quiz-emoji">🧠</div>
+            <div class="illustration-stars">✦　✧　✦</div>
+            <div class="mini-quiz-card">
+                <div class="mini-quiz-header"><span>BEKTEST CHALLENGE</span><span class="mini-live"><i></i> READY</span></div>
+                <h3>Sen tayyormisan?</h3>
+                <p>Bilimingni tekshir va yangi marralarga intil!</p>
+                <div class="mini-progress"><span></span></div>
+                <div class="mini-progress-label"><span>Olg'a!</span><strong>100%</strong></div>
+            </div>
+        </div>
+        <div class="floating-badge badge-top"><span>⚡</span><div><strong>15 soniya</strong><small>Har savol uchun</small></div></div>
+        <div class="floating-badge badge-bottom"><span>🏆</span><div><strong>Sen uddalaysan!</strong><small>Oldinga intil</small></div></div>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card"><div class="stat-icon stat-purple">📝</div><div><strong>{{ tests|length }}</strong><span>Mavjud testlar</span></div></div>
+    <div class="stat-card"><div class="stat-icon stat-blue">⏱</div><div><strong>15 <small>sek</small></strong><span>Har savolga vaqt</span></div></div>
+    <div class="stat-card"><div class="stat-icon stat-yellow">⭐</div><div><strong>∞</strong><span>Imkoniyatlar</span></div></div>
+    <div class="stat-card"><div class="stat-icon stat-green">🚀</div><div><strong>100%</strong><span>O'sish imkoniyati</span></div></div>
+</section>
+
+<section class="section-block" id="fanlar">
+    <div class="section-heading">
+        <div><span class="section-kicker">O'Z YO'NALISHINGNI TANLA</span><h2>Bilim olamiga <span class="gradient-text">xush kelibsan!</span></h2><p>O'zingga yoqqan yo'nalishni tanla va sinab ko'r.</p></div>
+        <a href="{% url 'categories' %}" class="text-link">Barcha fanlar <span>→</span></a>
+    </div>
+
+    <div class="subject-grid">
+        <a href="{% url 'categories' %}" class="subject-card subject-math"><div class="subject-symbol">➗</div><div><h3>Matematika</h3><p>Hisobla va mantiqiy fikrla</p></div><span class="subject-arrow">↗</span></a>
+        <a href="{% url 'categories' %}" class="subject-card subject-language"><div class="subject-symbol">📚</div><div><h3>Ona tili</h3><p>So'zlar olamini kashf et</p></div><span class="subject-arrow">↗</span></a>
+        <a href="{% url 'categories' %}" class="subject-card subject-english"><div class="subject-symbol">🌍</div><div><h3>Ingliz tili</h3><p>Yangi so'zlarni o'rgan</p></div><span class="subject-arrow">↗</span></a>
+        <a href="{% url 'categories' %}" class="subject-card subject-logic"><div class="subject-symbol">🧩</div><div><h3>Mantiq</h3><p>Topqirligingni sinab ko'r</p></div><span class="subject-arrow">↗</span></a>
+    </div>
+</section>
+
+<section class="section-block" id="testlar">
+    <div class="section-heading">
+        <div><span class="section-kicker">SENI SINOVLAR KUTMOQDA</span><h2>Mavjud <span class="gradient-text">testlar</span></h2><p>Testni tanla, savollarga javob ber va natijangni bilib ol.</p></div>
+        <span class="test-count">{{ tests|length }} ta test</span>
+    </div>
+
+    <div class="test-grid">
+        {% for test in tests %}
+            <article class="test-card">
+                <div class="test-card-art">
+                    <span class="test-number">TEST {{ forloop.counter|stringformat:"02d" }}</span>
+                    <span class="test-art-icon">{% cycle '🧮' '🧠' '📘' '🔬' '🌟' %}</span>
+                    <span class="test-art-orb"></span>
+                </div>
+                <div class="test-card-body">
+                    <div class="test-label-row"><span class="difficulty-pill">Boshlang'ich</span><span class="test-time">⏱ 15 sek/savol</span></div>
+                    <h3>{{ test.title }}</h3>
+                    <p class="test-description">{% if test.description %}{{ test.description|truncatewords:18 }}{% else %}Bilimingni sinab ko'r va yangi marralarni zabt et!{% endif %}</p>
+                    <div class="test-card-meta"><span>❓ {{ test.questions.count }} ta savol</span><span>⭐ Mashq</span></div>
+                    <a href="{% url 'take_test' test.id %}" class="test-start-button">Testni boshlash <span>→</span></a>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state"><div>📭</div><h3>Hozircha testlar yo'q</h3><p>Admin panel orqali birinchi testingni qo'shishing mumkin.</p><a href="/admin/" class="button button-primary">Admin panelga o'tish →</a></div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="motivation-banner">
+    <div class="motivation-icon">🚀</div>
+    <div><span class="section-kicker">KICHIK QADAM — KATTA NATIJA</span><h2>Bugun o'rgan. Ertaga porla!</h2><p>Har bir savol seni maqsadingga yaqinlashtiradi.</p></div>
+    <a href="#testlar" class="button button-primary">Boshladik! →</a>
+</section>
+{% endblock %}

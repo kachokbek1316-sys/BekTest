@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}{{ test.title }} | BekTest{% endblock %}
+
+{% block content %}
+<section class="quiz-page">
+    <div class="quiz-topline">
+        <a href="{% url 'home' %}" class="quiz-back">← Bosh sahifa</a>
+        <span class="quiz-mode">⚡ TEZKOR TEST</span>
+    </div>
+
+    <div class="quiz-card">
+        {% if error %}
+            <div class="quiz-error">{{ error }}</div>
+        {% endif %}
+
+        {% if question %}
+            <div class="quiz-heading">
+                <span class="quiz-chip">🧠 Bilimingni sinab ko'r</span>
+                <h1>{{ test.title }}</h1>
+                <p>Shoshilmasdan o'qi va to'g'ri javobni tanla!</p>
+            </div>
+
+            <div class="quiz-meta">
+                <span>Savol <strong>{{ question_number }}</strong> / {{ total }}</span>
+                <span class="quiz-percent">{{ progress }}% bajarildi</span>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" style="width: {{ progress }}%;"></div>
+            </div>
+
+            <div
+                class="timer-panel"
+                data-timer
+                data-seconds="{{ remaining|default_if_none:question_time }}"
+            >
+                <div class="timer-icon">⏱</div>
+
+                <div class="timer-copy">
+                    <strong>Vaqt qoldi</strong>
+                    <span>Har savol uchun {{ question_time }} soniya</span>
+                </div>
+
+                <div class="timer-number" data-timer-number>{{ remaining|default_if_none:question_time }}</div>
+            </div>
+
+            <form method="post" class="quiz-form" data-quiz-form>
+                {% csrf_token %}
+
+                <input type="hidden" name="action" value="next" data-quiz-action>
+
+                <h2 class="question-text">{{ question.text }}</h2>
+
+                <div class="answer-list">
+                    {% for answer in question.answers.all %}
+                        <label class="answer-option">
+                            <input
+                                type="radio"
+                                name="answer"
+                                value="{{ answer.id }}"
+                                {% if answer.id|stringformat:"s" == selected_answer|stringformat:"s" %}checked{% endif %}
+                            >
+
+                            <span class="answer-letter">
+                                {% cycle 'A' 'B' 'C' 'D' 'E' 'F' %}
+                            </span>
+
+                            <span class="answer-text">{{ answer.text }}</span>
+                        </label>
+                    {% empty %}
+                        <p>Bu savol uchun javoblar hali kiritilmagan.</p>
+                    {% endfor %}
+                </div>
+
+                <div class="quiz-bottom">
+                    <span class="quiz-hint">💡 Diqqat bilan o'qi!</span>
+
+                    {% if is_last %}
+                        <button
+                            type="submit"
+                            class="button button-finish"
+                            data-submit-button
+                        >
+                            Testni yakunlash <span>🏆</span>
+                        </button>
+                    {% else %}
+                        <button
+                            type="submit"
+                            class="button button-primary"
+                            data-submit-button
+                        >
+                            Keyingi savol <span>→</span>
+                        </button>
+                    {% endif %}
+                </div>
+            </form>
+
+            <div class="quiz-timeout-message" data-timeout-message hidden>
+                ⏰ Vaqt tugadi! Keyingi savolga o'tilmoqda...
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div>📭</div>
+                <h2>Savollar topilmadi</h2>
+                <p>Bu testda hozircha ishlash mumkin bo'lgan savollar yo'q.</p>
+                <a href="{% url 'home' %}" class="button button-primary">
+                    Bosh sahifaga qaytish
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

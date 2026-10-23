@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Reyting | BekTest{% endblock %}
+
+{% block content %}
+<section class="inner-hero">
+    <div class="leaderboard-crown">🏆</div>
+    <span class="section-kicker">ENG YAXSHILAR SAHNASI</span>
+    <h1>Bilim bilan <span class="gradient-text">porla!</span></h1>
+    <p>Har bir test — o'z mahoratingni oshirish uchun yangi imkoniyat.</p>
+</section>
+
+<section class="leaderboard-panel">
+    <div class="leaderboard-heading">
+        <div><span class="section-kicker">BEKTEST ARENA</span><h2>🏅 O'quvchilar reytingi</h2></div>
+        <span class="coming-soon-pill">Keyingi bosqich</span>
+    </div>
+    <div class="leaderboard-empty">
+        <div class="leaderboard-trophy">🏆</div>
+        <h3>Reyting uchun joy tayyor!</h3>
+        <p>Hozircha natijalar doimiy bazada saqlanmaydi. Keyingi bosqichda o'quvchilar natijalari saqlanib, haqiqiy reyting tuziladi.</p>
+        <a href="{% url 'home' %}#testlar" class="button button-primary">Test ishlashni boshlash →</a>
+    </div>
+</section>
+{% endblock %}

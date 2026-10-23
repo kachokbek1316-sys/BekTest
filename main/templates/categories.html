@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Fanlar | BekTest{% endblock %}
+
+{% block content %}
+<section class="inner-hero">
+    <span class="section-kicker">BILIM OLAMIGA SAYOHAT</span>
+    <h1>O'z faningni <span class="gradient-text">tanla!</span></h1>
+    <p>Har bir yangi savol — yangi kashfiyot. O'zingga yoqqan yo'nalishdan boshlagin.</p>
+</section>
+
+<div class="subject-grid category-page-grid">
+    <div class="subject-card subject-math"><div class="subject-symbol">➗</div><div><h3>Matematika</h3><p>Sonlar va amallar olami</p></div></div>
+    <div class="subject-card subject-language"><div class="subject-symbol">📚</div><div><h3>Ona tili</h3><p>So'zlar va qoidalar</p></div></div>
+    <div class="subject-card subject-english"><div class="subject-symbol">🌍</div><div><h3>Ingliz tili</h3><p>Yangi so'zlarni o'rgan</p></div></div>
+    <div class="subject-card subject-logic"><div class="subject-symbol">🧩</div><div><h3>Mantiq</h3><p>Topqirligingni sinab ko'r</p></div></div>
+</div>
+
+<section class="section-block category-tests" id="barcha-testlar">
+    <div class="section-heading"><div><span class="section-kicker">SEN UCHUN TAYYORLANDI</span><h2>Mavjud <span class="gradient-text">testlar</span></h2><p>Testni tanla va bilimlaringni sinab ko'r.</p></div><span class="test-count">{{ tests|length }} ta test</span></div>
+    <div class="test-grid">
+        {% for test in tests %}
+            <article class="test-card">
+                <div class="test-card-art"><span class="test-number">TEST {{ forloop.counter|stringformat:"02d" }}</span><span class="test-art-icon">{% cycle '🧮' '🧠' '📘' '🔬' %}</span><span class="test-art-orb"></span></div>
+                <div class="test-card-body">
+                    <span class="difficulty-pill">Boshlang'ich</span>
+                    <h3>{{ test.title }}</h3>
+                    <p class="test-description">{% if test.description %}{{ test.description|truncatewords:18 }}{% else %}Bilimingni sinab ko'r va yangi marralarni zabt et!{% endif %}</p>
+                    <div class="test-card-meta"><span>❓ {{ test.questions.count }} ta savol</span><span>⏱ 15 sek/savol</span></div>
+                    <a href="{% url 'take_test' test.id %}" class="test-start-button">Testni boshlash <span>→</span></a>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state"><div>📚</div><h3>Testlar hali qo'shilmagan</h3><p>Yangi testlar qo'shilganda shu yerda paydo bo'ladi.</p></div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

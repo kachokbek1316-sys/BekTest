@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090d1f">
+    <meta name="description" content="BekTest — bilimlaringni sinab ko'r va yangi marralarni zabt et!">
+
+    <title>{% block title %}BekTest — Bilimingni sinab ko‘r!{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/main.js' %}" defer></script>
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+    <div class="site-glow site-glow-one"></div>
+    <div class="site-glow site-glow-two"></div>
+
+    <header class="navbar">
+        <div class="navbar-container">
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="Menyuni ochish"
+                aria-expanded="false"
+                aria-controls="navMenu"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <a href="{% url 'home' %}" class="logo">
+                <span class="logo-icon">B</span>
+                <span class="logo-name">Bek<span>Test</span></span>
+            </a>
+
+            <nav class="nav-menu" id="navMenu" aria-label="Asosiy menyu">
+                <a class="nav-link" href="{% url 'home' %}">Bosh sahifa</a>
+                <a class="nav-link" href="{% url 'categories' %}">Kategoriyalar</a>
+                <a class="nav-link" href="{% url 'leaderboard' %}">Reyting</a>
+                <a class="nav-link" href="{% url 'about' %}">Biz haqimizda</a>
+                <a class="nav-admin" href="/admin/">Admin panel ↗</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+
+            <a href="{% url 'home' %}" class="logo footer-logo">
+                <span class="logo-icon">B</span>
+                <span class="logo-name">Bek<span>Test</span></span>
+            </a>
+
+            <p>Bilimingni sinab ko‘r. Yangi marralarni zabt et!</p>
+
+            <div class="footer-links">
+                <a href="{% url 'home' %}">Bosh sahifa</a>
+                <a href="{% url 'categories' %}">Kategoriyalar</a>
+                <a href="{% url 'leaderboard' %}">Reyting</a>
+                <a href="{% url 'about' %}">Biz haqimizda</a>
+                <a href="/admin/">Admin panel</a>
+            </div>
+
+            <span class="footer-copy">
+                © 2026 BekTest. Barcha huquqlar himoyalangan.
+            </span>
+
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.getElementById("menuToggle");
+            const navMenu = document.getElementById("navMenu");
+
+            if (!menuToggle || !navMenu) {
+                return;
+            }
+
+            menuToggle.addEventListener("click", function () {
+                const isOpen = navMenu.classList.toggle("is-open");
+
+                menuToggle.setAttribute("aria-expanded", String(isOpen));
+                menuToggle.setAttribute(
+                    "aria-label",
+                    isOpen ? "Menyuni yopish" : "Menyuni ochish"
+                );
+            });
+
+            navMenu.querySelectorAll("a").forEach(function (link) {
+                link.addEventListener("click", function () {
+                    navMenu.classList.remove("is-open");
+                    menuToggle.setAttribute("aria-expanded", "false");
+                });
+            });
+
+            document.addEventListener("click", function (event) {
+                if (
+                    !navMenu.contains(event.target) &&
+                    !menuToggle.contains(event.target)
+                ) {
+                    navMenu.classList.remove("is-open");
+                    menuToggle.setAttribute("aria-expanded", "false");
+                }
+            });
+        });
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+
+</body>
+</html>

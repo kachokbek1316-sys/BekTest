@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Test natijasi | BekTest{% endblock %}
+
+{% block content %}
+<section class="result-page">
+    <div class="result-card">
+        <div class="result-confetti">{% if percentage >= 80 %}🏆{% elif percentage >= 50 %}🎉{% else %}💪{% endif %}</div>
+        <span class="section-kicker">TEST YAKUNLANDI</span>
+        <h1>Barakalla!</h1>
+        <p class="result-subtitle">{{ test.title }} testi bo'yicha natijang</p>
+
+        <div class="score-circle">
+            <span class="score-number">{{ percentage }}%</span>
+            <span class="score-label">Natijang</span>
+        </div>
+
+        <div class="result-stats">
+            <div class="result-stat correct-stat"><span class="stat-number">{{ score }}</span><span class="stat-label">To'g'ri javob</span></div>
+            <div class="result-stat wrong-stat"><span class="stat-number">{{ wrong_count }}</span><span class="stat-label">Noto'g'ri yoki o'tkazilgan</span></div>
+            <div class="result-stat total-stat"><span class="stat-number">{{ total }}</span><span class="stat-label">Jami savol</span></div>
+        </div>
+
+        <div class="result-message">
+            {% if percentage >= 80 %}
+                <h3>🏆 Ajoyib natija!</h3>
+                <p>Juda yaxshi! Shu tarzda davom et!</p>
+            {% elif percentage >= 50 %}
+                <h3>👏 Yaxshi harakat!</h3>
+                <p>Yana biroz mashq qilsang, natijang yanada oshadi.</p>
+            {% else %}
+                <h3>💪 Taslim bo'lma!</h3>
+                <p>Xatolardan o'rgan. Qayta urinib ko'rsang, albatta yaxshilanadi.</p>
+            {% endif %}
+        </div>
+
+        <div class="result-actions">
+            <a href="{% url 'home' %}" class="button button-glass">Bosh sahifa</a>
+            <a href="{% url 'take_test' test.id %}?restart=1" class="button button-primary">Qayta ishlash ↻</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

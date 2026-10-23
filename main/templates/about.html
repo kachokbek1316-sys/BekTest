@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}BekTest haqida{% endblock %}
+
+{% block content %}
+<section class="inner-hero">
+    <div class="about-logo">B<span>.</span></div>
+    <span class="section-kicker">BIZNING MAQSADIMIZ</span>
+    <h1>Bu — <span class="gradient-text">BekTest!</span></h1>
+    <p>Bilim olishni sodda, qiziqarli va hammaga qulay qilish uchun yaratilgan shaxsiy test platformasi.</p>
+</section>
+
+<section class="about-grid">
+    <article class="about-card"><div class="about-icon">🎯</div><h3>Maqsadimiz</h3><p>O'quvchilarga bilimini tekshirish, xatolaridan o'rganish va o'z ustida ishlash imkonini berish.</p></article>
+    <article class="about-card"><div class="about-icon">⚡</div><h3>Tez va qulay</h3><p>Sodda savollar, tushunarli javoblar va har bir savol uchun vaqt chegarasi.</p></article>
+    <article class="about-card"><div class="about-icon">🚀</div><h3>Rivojlanish</h3><p>Har bir urinish yangi tajriba. Muhimi, davom etish va o'rganishdan to'xtamaslik.</p></article>
+</section>
+
+<section class="about-quote">
+    <span>✦</span>
+    <blockquote>“Bugungi kichik harakating — ertangi katta yutug'ing.”</blockquote>
+    <p>BekTest</p>
+</section>
+
+<div class="about-action">
+    <h2>Bilimingni sinab ko'rishga tayyormisan?</h2>
+    <a href="{% url 'home' %}#testlar" class="button button-primary">Testlarni ko'rish →</a>
+</div>
+{% endblock %}
